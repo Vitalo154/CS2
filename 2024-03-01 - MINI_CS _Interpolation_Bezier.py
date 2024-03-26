@@ -12,14 +12,6 @@ def f(a : float, t : float) -> tuple[float]:
     return a*(math.cos(t) + math.sin(t)), a*(math.sin(t)+t*math.cos(t))
 
 def echantillonner(f, nb_point : int) -> list[tuple]:
-    resultX=[1]
-    resultY=[0]
-    for t in range (1,nb_point,1/nb_point):
-        resultX.append(f(1,t)[0])
-        resultY.append(f(1,t)[1])
-    return resultX,resultY
-
-        
     """
     Fonction qui retourne l'ensemble de points d'interpolation, construit sur la fonction f passée en argument
 
@@ -38,7 +30,14 @@ def echantillonner(f, nb_point : int) -> list[tuple]:
     """
     
     # TODO : A compléter, puis retirer l'instruction pass
-    pass
+    resultX=[1]
+    resultY=[0]
+    for t in range (1,nb_point,1/nb_point):
+        resultX.append(f(1,t)[0])
+        resultY.append(f(1,t)[1])
+    return resultX,resultY
+
+        
 
 def determiner_poles(points_interpolation : list[tuple]) -> list[tuple]:
     
