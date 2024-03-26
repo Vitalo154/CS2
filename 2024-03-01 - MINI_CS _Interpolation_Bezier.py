@@ -30,12 +30,10 @@ def echantillonner(f, nb_point : int) -> list[tuple]:
     """
     
     # TODO : A compléter, puis retirer l'instruction pass
-    resultX=[1]
-    resultY=[0]
-    for t in range (1,nb_point,1/nb_point):
-        resultX.append(f(1,t)[0])
-        resultY.append(f(1,t)[1])
-    return resultX,resultY
+    result=[(1,0)]
+    for t in range (1/nb_point,1+nb_point,1/nb_point):
+        result.append(f(1,t)[0],f(1,t)[1])
+    return result
 
         
 
@@ -98,11 +96,14 @@ def afficher_courbe(liste_points : list[tuple]) -> None:
     # TODO : A compléter, puis retirer l'instruction pass
     pass
 
-def afficher_erreur(nb_point_comparaison : int) -> list[float]:
+def distance(A:list[tuple],B:list[tuple])->list[float]:
     result=[]
-    for i in range(nb_point):
-        
-    
+    if len(A)=len(B):
+        for i in range(len(A)):
+            result.append(math.sqrt((A[i][0]-B[i][0])**2+(A[i][1]-B[i][1])**2))
+        return result
+
+def afficher_erreur(nb_point_comparaison : int) -> list[float]:
     
     """
     Fonction qui retourne, pour un nombre de points identique et équirépartis dans leurs domaines, l'erreur commise (la distance) entre la courbe de référenc et la courbe d'interpolation de Bezier
@@ -119,4 +120,6 @@ def afficher_erreur(nb_point_comparaison : int) -> list[float]:
 
     """    
     # TODO : A compléter, puis retirer l'instruction pass
-    pass
+
+    return distance(echantilloner(f,nb_point),calculer_points_courbe_Bezier(determiner_poles(echantilloner(f,nb_point))))
+
