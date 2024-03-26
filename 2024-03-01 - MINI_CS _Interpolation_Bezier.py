@@ -53,11 +53,16 @@ def base_bezier(n:int):
             B[i][j]=i_parmis_n(j,n)*(i*pas)**j*(1-i*pas)**(n-j)
     return B
         
-
+def profuit_vect_mat(mat,vect):
+    L=[]
+    for i in range(len(vect)):
+        a=0
+        for j in range (len(vect)):
+            a+=vect[j]*mat[j][i]
+        L.append(a)
+    return L
+    
 def determiner_poles(points_interpolation : list[tuple]) -> list[tuple]:
-    
-    
-    
     """
     Fonction qui calcule, puis de retourne les pôles de la courbe de Bézier en fonction d'une liste de points d'interpolation
 
@@ -73,7 +78,13 @@ def determiner_poles(points_interpolation : list[tuple]) -> list[tuple]:
 
     """
     # TODO : A compléter, puis retirer l'instruction pass
-    pass
+    B=base_bezier(len(points_interpolation))
+    inv_B=np.linalg.inv(B)
+    poles=produit_vect_mat(points_interpolation,inv_B)
+    return poles
+    
+    
+    
 
 def calculer_points_courbe_Bezier(liste_poles : list[tuple], nb_points : int) -> list[tuple]:
     """
@@ -93,7 +104,7 @@ def calculer_points_courbe_Bezier(liste_poles : list[tuple], nb_points : int) ->
 
     """   
     # TODO : A compléter, puis retirer l'instruction pass
-    pass   
+    
 
 def afficher_courbe(liste_points : list[tuple]) -> None:
     """
