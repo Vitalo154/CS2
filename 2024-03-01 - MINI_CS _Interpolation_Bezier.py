@@ -35,6 +35,23 @@ def echantillonner(f, nb_point : int) -> list[tuple]:
         result.append(f(1,t)[0],f(1,t)[1])
     return result
 
+def factorielle(n):
+    if n==0 or n==1:
+        return 1
+    else:
+        return n*factorielle(n-1)
+        
+def i_parmis_n(i,n):
+    return (factorielle(n)/(factorielle(i)*factorielle(n-i)))
+    
+def base_bezier(n:int):
+    """calcul la base de bezier a partir de n le nombre de points"""
+    B=[[0 for i in range n]for j in range (n)]
+    pas = 1/n
+    for i in range(n+1):
+        for j in range (n+1):
+            B[i][j]=i_parmis_n(j,n)*(i*pas)**j*(1-i*pas)**(n-j)
+    return B
         
 
 def determiner_poles(points_interpolation : list[tuple]) -> list[tuple]:
