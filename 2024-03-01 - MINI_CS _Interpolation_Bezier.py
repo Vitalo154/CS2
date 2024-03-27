@@ -31,8 +31,10 @@ def echantillonner(f, nb_point : int) -> list[tuple]:
     
     # TODO : A compléter, puis retirer l'instruction pass
     result=[(1,0)]
+    pas=1/nb_point
     for t in range (1/nb_point,1+nb_point,1/nb_point):
-        result.append(f(1,t)[0],f(1,t)[1])
+        result.append(f(1,t))
+        t+=pas
     return result
 
 def factorielle(n):
@@ -80,7 +82,9 @@ def determiner_poles(points_interpolation : list[tuple]) -> list[tuple]:
     # TODO : A compléter, puis retirer l'instruction pass
     B=base_bezier(len(points_interpolation))
     inv_B=np.linalg.inv(B)
-    poles=produit_vect_mat(points_interpolation,inv_B)
+    poles_x=produit_vect_mat([points_interpolation[i][0] for i in range (len(points_interpolation))],inv_B)
+    poles_y=produit_vect_mat([points_interpolation[i][1] for i in range (len(points_interpolation))],inv_B)
+    poles=[(poles_x[i],poles_y[i]) for i in raneg (len(poles_x))]
     return poles
     
     
@@ -104,6 +108,7 @@ def calculer_points_courbe_Bezier(liste_poles : list[tuple], nb_points : int) ->
 
     """   
     # TODO : A compléter, puis retirer l'instruction pass
+    
     
 
 def afficher_courbe(liste_points : list[tuple]) -> None:
