@@ -7,6 +7,7 @@ Created on Fri Mar  1 14:28:49 2024
 
 
 import math
+import mathplotlib as plt
 
 def f(a : float, t : float) -> tuple[float]:
     return a*(math.cos(t) + math.sin(t)), a*(math.sin(t)+t*math.cos(t))
@@ -127,7 +128,12 @@ def afficher_courbe(liste_points : list[tuple]) -> None:
 
     """
     # TODO : A compléter, puis retirer l'instruction pass
-    pass
+
+    plt.plot((liste_points[i][0] for i in range (len(liste_points))), (liste_points[i][1] for i in range (len(liste_points))), label='Interpolation')
+    plt.title("Interpolation par une courbe de Bézier")
+    plt.grid(True)
+    plt.show()
+
 
 def distance(A:list[tuple],B:list[tuple])->list[float]:
     result=[]
