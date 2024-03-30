@@ -6,13 +6,15 @@ Created on Fri Mar  1 14:28:49 2024
 """
 
 
-import math
-import mathplotlib as plt
 
-def f(a : float, t : float) -> tuple[float]:
+import math
+import matplotlib as plt
+import numpy as np
+
+def f(a : float, t : float) -> tuple:
     return a*(math.cos(t) + math.sin(t)), a*(math.sin(t)+t*math.cos(t))
 
-def echantillonner(f, nb_point : int) -> list[tuple]:
+def echantillonner(f, nb_point : int) -> list:
     """
     Fonction qui retourne l'ensemble de points d'interpolation, construit sur la fonction f passée en argument
 
@@ -25,7 +27,7 @@ def echantillonner(f, nb_point : int) -> list[tuple]:
 
     Returns
     -------
-    list[tuple]
+    list
         Liste contenant, sous la forme de tuple, l'ensemble des points d'interpolation
 
     """
@@ -49,14 +51,14 @@ def i_parmis_n(i,n):
     
 def base_bezier(n:int):
     """calcul la base de bezier a partir de n le nombre de points"""
-    B=[[0 for i in range n]for j in range (n)]
+    B=[[0 for i in range (n)]for j in range (n)]
     pas = 1/n
     for i in range(n+1):
         for j in range (n+1):
             B[i][j]=i_parmis_n(j,n)*(i*pas)**j*(1-i*pas)**(n-j)
     return B
         
-def profuit_vect_mat(mat,vect):
+def produit_vect_mat(mat,vect):
     L=[]
     for i in range(len(vect)):
         a=0
@@ -65,7 +67,7 @@ def profuit_vect_mat(mat,vect):
         L.append(a)
     return L
     
-def determiner_poles(points_interpolation : list[tuple]) -> list[tuple]:
+def determiner_poles(points_interpolation : list) -> list:
     """
     Fonction qui calcule, puis de retourne les pôles de la courbe de Bézier en fonction d'une liste de points d'interpolation
 
@@ -85,26 +87,26 @@ def determiner_poles(points_interpolation : list[tuple]) -> list[tuple]:
     inv_B=np.linalg.inv(B)
     poles_x=produit_vect_mat([points_interpolation[i][0] for i in range (len(points_interpolation))],inv_B)
     poles_y=produit_vect_mat([points_interpolation[i][1] for i in range (len(points_interpolation))],inv_B)
-    poles=[(poles_x[i],poles_y[i]) for i in raneg (len(poles_x))]
+    poles=[(poles_x[i],poles_y[i]) for i in range (len(poles_x))]
     return poles
     
     
     
 
-def calculer_points_courbe_Bezier(liste_poles : list[tuple], nb_points : int) -> list[tuple]:
+def calculer_points_courbe_Bezier(liste_poles : list, nb_points : int) -> list:
     """
     Fonction qui retourne les coordonnées des points de la courbe de Bezier, construits sur les poles passés en argument
 
     Parameters
     ----------
-    liste_poles : list[tuple]
+    liste_poles : list
         Liste contenant, sous la forme de tuple, l'ensemble des poles de la courbe de Bezier
     nb_points : int
         Nombre de points équirépartis de la courbe de Bezier souhaités
 
     Returns
     -------
-    list[tuple]
+    list
         DESCRIPTION.
 
     """   
@@ -112,13 +114,13 @@ def calculer_points_courbe_Bezier(liste_poles : list[tuple], nb_points : int) ->
     
     
 
-def afficher_courbe(liste_points : list[tuple]) -> None:
+def afficher_courbe(liste_points : list) -> None:
     """
     Procédure d'affichage d'une courbe connue de manière discréte (par un ensemble de points)
 
     Parameters
     ----------
-    liste_points : list[tuple]
+    liste_points : list
         Points connus de la fonction (ou courbe) que l'on sohaite afficher
 
     Returns
@@ -135,14 +137,14 @@ def afficher_courbe(liste_points : list[tuple]) -> None:
     plt.show()
 
 
-def distance(A:list[tuple],B:list[tuple])->list[float]:
+def distance(A:list,B:list)->list:
     result=[]
-    if len(A)=len(B):
+    if len(A)==len(B):
         for i in range(len(A)):
             result.append(math.sqrt((A[i][0]-B[i][0])**2+(A[i][1]-B[i][1])**2))
         return result
 
-def afficher_erreur(nb_point_comparaison : int) -> list[float]:
+def afficher_erreur(nb_point_comparaison : int) -> list:
     
     """
     Fonction qui retourne, pour un nombre de points identique et équirépartis dans leurs domaines, l'erreur commise (la distance) entre la courbe de référenc et la courbe d'interpolation de Bezier
@@ -154,11 +156,10 @@ def afficher_erreur(nb_point_comparaison : int) -> list[float]:
 
     Returns
     -------
-    list[float]
+    list[]
         Liste contenant les écarts entre les points de la courbe d'origine et de la courbe d'interpolation de Bezier
 
     """    
     # TODO : A compléter, puis retirer l'instruction pass
 
-    return distance(echantilloner(f,nb_point),calculer_points_courbe_Bezier(determiner_poles(echantilloner(f,nb_point))))
-
+    return distance(echantillonner(f,nb_point_comparaison),calculer_points_courbe_Bezier(determiner_poles(echantillonner(f,nb_point_comparaison))))
