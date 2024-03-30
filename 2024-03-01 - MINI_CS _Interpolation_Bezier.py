@@ -111,6 +111,17 @@ def calculer_points_courbe_Bezier(liste_poles : list, nb_points : int) -> list:
 
     """   
     # TODO : A compléter, puis retirer l'instruction pass
+    if len(liste_poles)>=nb_points:
+        return liste_poles
+    else:
+        n=len(liste_poles)+1
+        L=[0 for i in range (n)]
+        L[0]=liste_poles[0]
+        pas =1/n
+        for i in range (1,n):
+            L[i]=pas*i*liste_poles[i]+(1-pas*i)*liste_poles[i-1]
+        L.append(liste_poles[-1])
+        return calculer_points_courbe_Bezier(L, nb_points)        
     
     
 
