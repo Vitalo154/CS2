@@ -187,3 +187,9 @@ def afficher_erreur(nb_point_comparaison : int) -> list:
     # TODO : A compléter, puis retirer l'instruction pass
 
     return distance(echantillonner(f,nb_point_comparaison),calculer_points_courbe_Bezier(determiner_poles(echantillonner(f,nb_point_comparaison))))
+
+plt.plot([determiner_poles(echantillonner(f,4))[i][0] for i in range (4)], [determiner_poles(echantillonner(f,4))[i][1] for i in range (4)], label='Interpolation')
+plt.plot([calculer_points_courbe_Bezier(determiner_poles(echantillonner(f,4)),6)[i][0] for i in range (6)], [calculer_points_courbe_Bezier(determiner_poles(echantillonner(f,4)),6)[i][1] for i in range (6)], label='Interpolation')
+plt.title("Interpolation par une courbe de Bézier")
+plt.grid(True)
+plt.show()
