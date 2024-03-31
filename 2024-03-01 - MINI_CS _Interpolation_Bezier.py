@@ -50,18 +50,18 @@ def factorielle(n):
 # print(factorielle (5))
 # print(factorielle (0))
         
-def i_parmis_n(i,n):
-    return (factorielle(n)/(factorielle(i)*factorielle(n-i)))
+def coeff_bernstein(i,n,t):
+    return (factorielle(n)/(factorielle(i)*factorielle(n-i))*t**i*(1-t)**(n-i))
 
 # print(i_parmis_n(1, 4))
     
-def base_bezier(n:int):
-    """calcul la base de bezier a partir de n le nombre de points"""
+def base_bernstein(n:int):
+    """calcul la base de bernstein a partir de n le nombre de points"""
     B=[[0 for i in range (n+1)]for j in range (n+1)]
-    pas = 1/n
+    pas = 1/(n+1)
     for i in range(n+1):
         for j in range (n+1):
-            B[i][j]=i_parmis_n(j,n)*(i*pas)**j*(1-i*pas)**(n-j)
+            B[i][j]=coeff_bernstein(i, n,j*pas )
     return B
 
 # print (base_bezier(10))
@@ -75,7 +75,7 @@ def produit_vect_mat(vect,mat):
         L.append(a)
     return L
     
-# print(produit_vect_mat([1,0,0],[[2,3,3],[5,5,5],[6,7,8]]))
+# print(produit_vect_mat([1,1,1],[[2,3,3],[5,5,5],[6,7,8]]))
 
 def determiner_poles(points_interpolation : list) -> list:
     """
@@ -93,7 +93,7 @@ def determiner_poles(points_interpolation : list) -> list:
 
     """
     # TODO : A compléter, puis retirer l'instruction pass
-    B=base_bezier(len(points_interpolation))
+    B=base_bernstein(len(points_interpolation))
     inv_B=np.linalg.inv(B)
     poles_x=produit_vect_mat([points_interpolation[i][0] for i in range (len(points_interpolation))],inv_B)
     poles_y=produit_vect_mat([points_interpolation[i][1] for i in range (len(points_interpolation))],inv_B)
@@ -157,7 +157,7 @@ def afficher_courbe(liste_points : list) -> None:
     plt.grid(True)
     plt.show()
 
-# afficher_courbe(calculer_points_courbe_Bezier(determiner_poles(echantillonner(f, 20)),25))
+# afficher_courbe(calculer_points_courbe_Bezier(determiner_poles(echantillonner(f, 20)),100))
 
 def distance(A:list,B:list)->list:
     result=[]
@@ -166,7 +166,7 @@ def distance(A:list,B:list)->list:
             result.append(math.sqrt((A[i][0]-B[i][0])**2+(A[i][1]-B[i][1])**2))
         return result
     
-print (distance ([(0,0)],[(0,1)]))
+# print (distance ([(0,0)],[(0,1)]))
 
 def afficher_erreur(nb_point_comparaison : int) -> list:
     
