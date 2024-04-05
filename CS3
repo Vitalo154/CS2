@@ -86,3 +86,10 @@ def polesC1(liste):
     result.append(liste[i])
     result.append((2*liste[i][0]-liste[i+1][0],2*liste[i][1]-liste[i+1][0]))
     return result
+
+def polesC2(liste_poles):
+    """liste_poles est la liste contenant les 3 derniers poles de la premiere courbe et les 3 derniers poles de la deuxieme courbe pour faire les raccordements (An,An-1,An-2,Bn,Bn-1,Bn-2) """
+    poles1=polesC1(liste_poles)
+    A2=(liste_poles[0][0]-2*liste_poles[1][0]+liste_poles[2][0]+2*poles1[1][0]-poles1[0][0],liste_poles[0][1]-2*liste_poles[1][1]+liste_poles[2][1]+2*poles1[1][1]-poles1[0][1])
+    B2=(liste_poles[3][0]-2*liste_poles[4][0]+liste_poles[5][0]+2*poles1[3][0]-poles1[2][0],liste_poles[3][1]-2*liste_poles[4][1]+liste_poles[5][1]+2*poles1[3][1]-poles1[2][1])
+    return poles1[:2]+A2+poles1[3:]+B2
