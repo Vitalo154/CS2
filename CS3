@@ -1,1 +1,80 @@
+import math
+import matplotlib.pyplot as plt
+import numpy as np
+import numpy.linalg as alg
 
+def casteljau_aux(L,t):
+    if len (L)<2:
+        return L
+    else:
+        for i in range (len(L)-1):
+            L[i]=(t*L[i+1][0]+(1-t)*L[i][0],t*L[i+1][1]+(1-t)*L[i][1])
+        L=L[:-1]
+        return L
+# print(len(determiner_poles(echantillonner(f,4))))
+# print(casteljau_aux(determiner_poles(echantillonner(f,4)), 1/4))
+
+def casteljau(L,t):
+    if len(L)<2:
+        return L[0]
+    else:
+        return casteljau(casteljau_aux(L, t),t)
+# print(casteljau(determiner_poles(echantillonner(f,4)), 1/4))
+
+def calculer_points_courbe_Bezier(liste_poles : list, nb_points : int) -> list:
+    """
+    Fonction qui retourne les coordonnées des points de la courbe de Bezier, construits sur les poles passés en argument
+
+    Parameters
+    ----------
+    liste_poles : list
+        Liste contenant, sous la forme de tuple, l'ensemble des poles de la courbe de Bezier
+    nb_points : int
+        Nombre de points équirépartis de la courbe de Bezier souhaités
+
+    Returns
+    -------
+    list
+        DESCRIPTION.
+
+    """   
+    # TODO : A compléter, puis retirer l'instruction pass
+    L=[]
+    pas=1/(nb_points)
+    for i in range (nb_points):
+        L.append(casteljau(liste_poles[:], pas*i))
+    return L
+
+def afficher_courbe(liste_points : list) -> None:
+    """
+    Procédure d'affichage d'une courbe connue de manière discréte (par un ensemble de points)
+
+    Parameters
+    ----------
+    liste_points : list
+        Points connus de la fonction (ou courbe) que l'on sohaite afficher
+
+    Returns
+    -------
+    None
+        Aucun retour n'est souhaité, uniquement l'affichage via matplotlib
+
+    """
+    # TODO : A compléter, puis retirer l'instruction pass
+
+    plt.plot([liste_points[i][0] for i in range (len(liste_points))],\
+    [liste_points[i][1] for i in range (len(liste_points))], label='Interpolation')
+    plt.title("Interpolation par une courbe de Bézier")
+    plt.grid(True)
+    plt.show()
+
+def distance(A:list,B:list)->list:
+    result=[]
+    if len(A)==len(B):
+        for i in range(len(A)):
+            result.append(math.sqrt((A[i][0]-B[i][0])**2+(A[i][1]-B[i][1])**2))
+        return result
+    
+def polesC0(liste_poles):
+    """liste_poles est la liste contenant les 3 derniers poles de la premiere courbe et les 3 derniers poles de la deuxieme courbe pour faire les raccordements (An,An-1,An-2,Bn,Bn-1,Bn-2) """
+    
