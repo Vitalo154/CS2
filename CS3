@@ -77,4 +77,5 @@ def distance(A:list,B:list)->list:
     
 def polesC0(liste_poles):
     """liste_poles est la liste contenant les 3 derniers poles de la premiere courbe et les 3 derniers poles de la deuxieme courbe pour faire les raccordements (An,An-1,An-2,Bn,Bn-1,Bn-2) """
-    
+    return [liste_poles[0],liste_poles[3]]
+
