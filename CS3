@@ -104,6 +104,29 @@ def Castel(liste,nb_points):
         L=liste
     return calculer_points_courbe_Bezier(L,nb_points)
 
+def raccordement(liste_poles):
+    poles0=polesC0(liste_poles)
+    poles1=polesC1(liste_poles)
+    poles2=polesC2(liste_poles)
+    plt.plot([Castel(poles0,50)[i][0] for i in range (50)], [Castel(poles0,50)[i][1] for i in range (50)], label='raccordement C0',color='red')
+    plt.plot([Castel(poles1,50)[i][0] for i in range (50)], [Castel(poles1,50)[i][1] for i in range (50)], label='raccordement C1',color='purple')
+    plt.plot([Castel(poles2,50)[i][0] for i in range (50)], [Castel(poles2,50)[i][1] for i in range (50)], label='raccordement C2',color='blue')
+    plt.plot([liste_poles[i][0]for i in range (3)],[liste_poles[i][1]for i in range (3)],label='courbe1',linestyle='dotted')
+    plt.plot([liste_poles[-i][0]for i in range (1,4)],[liste_poles[-i][1]for i in range (1,4)],label='courbe1',linestyle='dotted')
+    plt.title("raccordement")
+    plt.legend()
+    plt.show()
+
+def symetrie(l,xsym):
+    """symetrie d'une courbe par rapport a une droite d'equation x=xsym"""
+    return [(2*xsym-l[i][0],l[i][1]) for i in range(len(l))]
+
+def test():
+    liste_poles =[(0.9999999999999998, 6.283185307179586), (0.37200770930747495, 5.0313466813356875),(-0.6966841251157945, 0.9926557560514162)]
+    liste_poles +=symetrie(liste_poles,2)
+    raccordement(liste_poles)
+
+test()
 
 
 ....................
