@@ -38,35 +38,13 @@ def calculer_points_courbe_Bezier(liste_poles : list, nb_points : int) -> list:
         DESCRIPTION.
 
     """   
-    # TODO : A compléter, puis retirer l'instruction pass
+
     L=[]
     pas=1/(nb_points)
     for i in range (nb_points):
         L.append(casteljau(liste_poles[:], pas*i))
     return L
 
-def afficher_courbe(liste_points : list) -> None:
-    """
-    Procédure d'affichage d'une courbe connue de manière discréte (par un ensemble de points)
-
-    Parameters
-    ----------
-    liste_points : list
-        Points connus de la fonction (ou courbe) que l'on sohaite afficher
-
-    Returns
-    -------
-    None
-        Aucun retour n'est souhaité, uniquement l'affichage via matplotlib
-
-    """
-    # TODO : A compléter, puis retirer l'instruction pass
-
-    plt.plot([liste_points[i][0] for i in range (len(liste_points))],\
-    [liste_points[i][1] for i in range (len(liste_points))], label='Interpolation')
-    plt.title("Interpolation par une courbe de Bézier")
-    plt.grid(True)
-    plt.show()
 
 def distance(A:list,B:list)->list:
     result=[]
@@ -88,11 +66,13 @@ def polesC1(liste):
     return result
 
 def polesC2(liste_poles):
-    """liste_poles est la liste contenant les 3 derniers poles de la premiere courbe et les 3 derniers poles de la deuxieme courbe pour faire les raccordements (An,An-1,An-2,Bn,Bn-1,Bn-2) """
+    """liste_poles est la liste contenant les 3 derniers poles de la premiere
+    courbe et les 3 derniers poles de la deuxieme courbe pour faire les
+    raccordements (An,An-1,An-2,Bn,Bn-1,Bn-2) """
     poles1=polesC1(liste_poles)
     A2=(liste_poles[0][0]-2*liste_poles[1][0]+liste_poles[2][0]+2*poles1[1][0]-poles1[0][0],liste_poles[0][1]-2*liste_poles[1][1]+liste_poles[2][1]+2*poles1[1][1]-poles1[0][1])
     B2=(liste_poles[3][0]-2*liste_poles[4][0]+liste_poles[5][0]+2*poles1[3][0]-poles1[2][0],liste_poles[3][1]-2*liste_poles[4][1]+liste_poles[5][1]+2*poles1[3][1]-poles1[2][1])
-    return poles1[:2]+A2+poles1[3:]+B2
+    return poles1[:2]+[A2]+poles1[2:]+[B2]
 
 def Castel(liste,nb_points):
     L=[]
@@ -122,11 +102,8 @@ def symetrie(l,xsym):
     return [(2*xsym-l[i][0],l[i][1]) for i in range(len(l))]
 
 def test():
-    liste_poles =[(0.9999999999999998, 6.283185307179586), (0.37200770930747495, 5.0313466813356875),(-0.6966841251157945, 0.9926557560514162)]
-    liste_poles +=symetrie(liste_poles,2)
+    liste_poles =[(1, 0), (2, 4),(5, 6)]
+    liste_poles +=symetrie(liste_poles,0)
     raccordement(liste_poles)
 
 test()
-
-
-....................
